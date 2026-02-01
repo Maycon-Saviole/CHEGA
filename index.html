@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHEGA! - Segurança Pessoal</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="https://img.icons8.com/color/96/000000/women-safety.png">
+    <style>
+        /* CSS embutido para simplificar */
+        :root {
+            --emergency-red: #ff3b30;
+            --safe-green: #4cd964;
+            --trust-blue: #007aff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 3em;
+            margin: 30px 0 10px;
+        }
+        
+        .tagline {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 40px;
+        }
+        
+        .emergency-btn {
+            background: var(--emergency-red);
+            border: none;
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            color: white;
+            font-size: 2em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255, 59, 48, 0.4);
+            margin: 30px auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+        
+        .emergency-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 40px 0;
+        }
+        
+        .feature {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .feature-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .status {
+            background: rgba(0,0,0,0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .install-btn {
+            background: var(--safe-green);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 20px 0;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        footer {
+            margin-top: 40px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="logo">🚨 CHEGA!</h1>
+        <p class="tagline">Segurança pessoal para mulheres</p>
+        
+        <button id="emergencyBtn" class="emergency-btn">
+            <span style="font-size: 1.5em;">CHEGA!</span>
+            <span style="font-size: 0.6em; opacity: 0.8;">Segure 3 segundos</span>
+        </button>
+        
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">📍</div>
+                <h3>Acompanhamento</h3>
+                <p>Trajeto em tempo real</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">👥</div>
+                <h3>Contatos</h3>
+                <p>Rede de apoio</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🤝</div>
+                <h3>CHEGA+</h3>
+                <p>Comunidade próxima</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">ℹ️</div>
+                <h3>Sobre</h3>
+                <p>Conheça o projeto</p>
+            </div>
+        </div>
+        
+        <div class="status">
+            <p>📍 Localização: <span id="locationStatus">Ativa ✅</span></p>
+            <p>📶 Rede: <span id="networkStatus">Online 🌐</span></p>
+        </div>
+        
+        <button id="installBtn" class="install-btn">
+            📲 Instalar App na Tela Inicial
+        </button>
+        
+        <footer>
+            <p>Desenvolvido com ❤️ por um pai e professor</p>
+            <p>Gratuito • Open Source • Para todas</p>
+        </footer>
+    </div>
+
+    <script>
+        // App CHEGA! - JavaScript simplificado
+        class ChegaApp {
+            constructor() {
+                this.init();
+            }
+            
+            async init() {
+                this.setupEmergencyButton();
+                this.setupInstallPrompt();
+                this.checkPermissions();
+                this.setupNetworkMonitor();
+            }
+            
+            setupEmergencyButton() {
+                const btn = document.getElementById('emergencyBtn');
+                let pressTimer;
+                
+                btn.addEventListener('touchstart', () => {
+                    pressTimer = setTimeout(() => {
+                        this.activateEmergency();
+                    }, 3000);
+                });
+                
+                btn.addEventListener('touchend', () => {
+                    clearTimeout(pressTimer);
+                });
+                
+                btn.addEventListener('click', () => {
+                    // Para teste rápido
+                    window.location.href = 'emergency.html';
+                });
+            }
+            
+            async activateEmergency() {
+                try {
+                    // Obter localização
+                    const pos = await this.getLocation();
+                    
+                    // Criar mensagem de emergência
+                    const message = this.createEmergencyMessage(pos);
+                    
+                    // Abrir tela de emergência
+                    window.location.href = `emergency.html?lat=${pos.lat}&lng=${pos.lng}`;
+                    
+                } catch (error) {
+                    console.error('Erro:', error);
+                    alert('Ative a localização para usar o app');
+                }
+            }
+            
+            getLocation() {
+                return new Promise((resolve, reject) => {
+                    if (!navigator.geolocation) {
+                        reject('Geolocalização não suportada');
+                        return;
+                    }
+                    
+                    navigator.geolocation.getCurrentPosition(
+                        (pos) => resolve({
+                            lat: pos.coords.latitude,
+                            lng: pos.coords.longitude
+                        }),
+                        (err) => reject(err)
+                    );
+                });
+            }
+            
+            createEmergencyMessage(location) {
+                const mapLink = `https://maps.google.com/?q=${location.lat},${location.lng}`;
+                return `🚨 EMERGÊNCIA CHEGA! Preciso de ajuda! Local: ${mapLink}`;
+            }
+            
+            setupInstallPrompt() {
+                let deferredPrompt;
+                const installBtn = document.getElementById('installBtn');
+                
+                window.addEventListener('beforeinstallprompt', (e) => {
+                    e.preventDefault();
+                    deferredPrompt = e;
+                    installBtn.style.display = 'block';
+                });
+                
+                installBtn.addEventListener('click', async () => {
+                    if (!deferredPrompt) return;
+                    
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    
+                    if (outcome === 'accepted') {
+                        installBtn.textContent = '✅ App Instalado!';
+                    }
+                    
+                    deferredPrompt = null;
+                });
+            }
+            
+            checkPermissions() {
+                if (navigator.permissions) {
+                    navigator.permissions.query({name: 'geolocation'})
+                        .then(result => {
+                            if (result.state === 'granted') {
+                                document.getElementById('locationStatus').textContent = 'Ativa ✅';
+                            }
+                        });
+                }
+            }
+            
+            setupNetworkMonitor() {
+                window.addEventListener('online', () => {
+                    document.getElementById('networkStatus').textContent = 'Online 🌐';
+                });
+                
+                window.addEventListener('offline', () => {
+                    document.getElementById('networkStatus').textContent = 'Offline ⚠️';
+                });
+            }
+        }
+        
+        // Iniciar app
+        document.addEventListener('DOMContentLoaded', () => {
+            window.app = new ChegaApp();
+        });
+    </script>
+</body>
+</html>

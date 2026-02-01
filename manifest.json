@@ -1,0 +1,26 @@
+{
+  "name": "CHEGA! - Segurança Pessoal",
+  "short_name": "CHEGA!",
+  "description": "App de segurança para mulheres com alertas visuais e localização",
+  "start_url": "https://[seu-usuario].github.io/chega-app/",
+  "display": "standalone",
+  "background_color": "#764ba2",
+  "theme_color": "#007aff",
+  "icons": [
+    {
+      "src": "https://img.icons8.com/color/96/000000/women-safety.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "https://img.icons8.com/color/144/000000/women-safety.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "https://img.icons8.com/color/192/000000/women-safety.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

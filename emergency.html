@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚨 EMERGÊNCIA - CHEGA!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #ff0000;
+            color: white;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            animation: pulse 0.5s infinite, shake 0.5s infinite;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        
+        @keyframes pulse {
+            0% { background-color: #ff0000; }
+            50% { background-color: #ffffff; }
+            100% { background-color: #ff0000; }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+        
+        .sos {
+            font-size: 120px;
+            margin: 20px;
+            animation: flash 0.3s infinite;
+        }
+        
+        @keyframes flash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        h1 {
+            font-size: 3em;
+            margin: 10px;
+        }
+        
+        h2 {
+            font-size: 2em;
+            margin: 10px;
+        }
+        
+        .info {
+            background: rgba(0,0,0,0.7);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px;
+            max-width: 90%;
+        }
+        
+        .info p {
+            margin: 10px 0;
+            font-size: 1.2em;
+        }
+        
+        .safe-btn {
+            background: #4cd964;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.5em;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 30px;
+        }
+        
+        .timer {
+            margin-top: 20px;
+            font-size: 1.2em;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sos">🚨</div>
+    <h1>CHEGA!</h1>
+    <h2>PRECISO DE AJUDA!</h2>
+    
+    <div class="info">
+        <p>🔊 SOM ALTO ATIVADO</p>
+        <p>📍 LOCALIZAÇÃO ENVIADA</p>
+        <p>📱 CONTATOS ALERTADOS</p>
+        <p id="address">Obtendo endereço...</p>
+    </div>
+    
+    <button class="safe-btn" onclick="cancelEmergency()">
+        ✅ ESTOU SEGURA
+    </button>
+    
+    <div class="timer">
+        Alertas enviados há: <span id="timer">0</span>s
+    </div>
+
+    <script>
+        // Tela cheia
+        document.documentElement.requestFullscreen?.catch(() => {});
+        
+        // Contador
+        let seconds = 0;
+        setInterval(() => {
+            seconds++;
+            document.getElementById('timer').textContent = seconds;
+        }, 1000);
+        
+        // Obter localização da URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const lat = urlParams.get('lat');
+        const lng = urlParams.get('lng');
+        
+        if (lat && lng) {
+            // Mostrar link do Google Maps
+            const mapLink = `https://maps.google.com/?q=${lat},${lng}`;
+            document.getElementById('address').innerHTML = 
+                `📍 <a href="${mapLink}" style="color: white;">Ver no mapa</a>`;
+            
+            // Enviar alertas
+            sendAlerts(lat, lng);
+        }
+        
+        function sendAlerts(lat, lng) {
+            // Enviar SMS para contatos de emergência
+            const message = `🚨 EMERGÊNCIA CHEGA! Preciso de ajuda! Local: https://maps.google.com/?q=${lat},${lng}`;
+            
+            // Usar API de SMS se disponível
+            if ('sms' in navigator) {
+                // Solicitar número via prompt
+                const number = localStorage.getItem('emergencyNumber') || prompt("Número para alerta:");
+                if (number) {
+                    localStorage.setItem('emergencyNumber', number);
+                    navigator.sms.send({
+                        number: number,
+                        text: message
+                    }).catch(() => {
+                        // Fallback: link SMS
+                        window.open(`sms:${number}?body=${encodeURIComponent(message)}`);
+                    });
+                }
+            } else {
+                // Pedir número
+                const number = localStorage.getItem('emergencyNumber');
+                if (number) {
+                    window.open(`sms:${number}?body=${encodeURIComponent(message)}`);
+                } else {
+                    alert('Configure um número de emergência na página principal');
+                }
+            }
+            
+            // Vibrar se suportado
+            if (navigator.vibrate) {
+                navigator.vibrate([200, 100, 200, 100, 200]);
+            }
+        }
+        
+        function cancelEmergency() {
+            // Parar vibração
+            if (navigator.vibrate) navigator.vibrate(0);
+            
+            // Voltar para página principal
+            window.location.href = 'index.html';
+        }
+        
+        // Tentar tocar sirene
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            playSiren(audioContext);
+        } catch (e) {
+            console.log('Áudio não suportado');
+        }
+        
+        function playSiren(audioContext) {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(1600, audioContext.currentTime + 0.5);
+            
+            gainNode.gain.setValueAtTime(0.5, audioContext.currentTime);
+            
+            oscillator.start();
+            
+            // Oscilar volume
+            setInterval(() => {
+                const now = audioContext.currentTime;
+                gainNode.gain.setValueAtTime(0.5, now);
+                gainNode.gain.exponentialRampToValueAtTime(0.1, now + 0.25);
+                gainNode.gain.exponentialRampToValueAtTime(0.5, now + 0.5);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
