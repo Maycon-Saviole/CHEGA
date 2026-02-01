@@ -1,0 +1,25 @@
+CHEGA! - APP DE SEGURANÇA PESSOAL
+
+Copyright (C) 2026 Maycon Saviole da Costa - Idealizador e Desenvolvedor
+
+Este programa é GRATUITO E SEMPRE SERÁ (software livre): você pode redistribuí-lo e/ou modificá-lo
+sob os termos da GNU General Public License conforme publicada por
+a Free Software Foundation, seja a versão 3 da Licença, ou
+(a seu critério) qualquer versão posterior.
+
+Este programa é distribuído na esperança de que seja útil,
+mas SEM QUALQUER GARANTIA; sem mesmo a garantia implícita de
+COMERCIALIZAÇÃO ou ADEQUAÇÃO A UM PROPÓSITO ESPECÍFICO. Veja a
+GNU General Public License para mais detalhes.
+
+Você deve ter recebido uma cópia da GNU General Public License
+junto com este programa. Se não, veja <https://www.gnu.org/licenses/>.
+
+CLÁUSULAS ÉTICAS ADICIONAIS:
+
+1. A FUNÇÃO DE ALERTA DE EMERGÊNCIA DEVE PERMANECER SEMPRE GRATUITA
+2. OS CRÉDITOS AO IDEALIZADOR DEVEM SER MANTIDOS EM TODAS AS VERSÕES
+3. PROIBIDO USO PARA VIGILÂNCIA OU CONTROLE ABUSIVO
+
+Para licenciamento especial (incorporação em sistemas operacionais),
+entre em contato: saviole@hotmail.com
