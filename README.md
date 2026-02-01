@@ -3,7 +3,7 @@
 Aplicativo web gratuito para proteção pessoal, especialmente para mulheres.
 
 ## 🌐 Acesse Agora
-https://[seu-usuario].github.io/chega-app
+https://[maycon-saviole].github.io/CHEGA
 
 ## 📱 Como Usar
 1. Acesse o link acima no celular
@@ -18,7 +18,7 @@ https://[seu-usuario].github.io/chega-app
 - Web Notifications
 
 ## 👨‍💻 Desenvolvedor
-Criado por um pai e professor preocupado com a segurança de todas as mulheres.
+Criado por Maycon Saviole, pai e professor preocupado com a segurança de TODOS, sobretudo as mulheres.
 
 ## 📄 Licença
 Este projeto é gratuito e open-source.
